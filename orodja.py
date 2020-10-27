@@ -4,6 +4,8 @@ import os
 import requests
 import sys
 
+default_headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
 
 def pripravi_imenik(ime_datoteke):
     '''Če še ne obstaja, pripravi prazen imenik za dano datoteko.'''
@@ -12,7 +14,7 @@ def pripravi_imenik(ime_datoteke):
         os.makedirs(imenik, exist_ok=True)
 
 
-def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False):
+def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False, headers=default_headers):
     '''Vsebino strani na danem naslovu shrani v datoteko z danim imenom.'''
     try:
         print(f'Shranjujem {url} ...', end='')
@@ -20,7 +22,7 @@ def shrani_spletno_stran(url, ime_datoteke, vsili_prenos=False):
         if os.path.isfile(ime_datoteke) and not vsili_prenos:
             print('shranjeno že od prej!')
             return
-        r = requests.get(url)
+        r = requests.get(url, headers=headers)
     except requests.exceptions.ConnectionError:
         print('stran ne obstaja!')
     else:
