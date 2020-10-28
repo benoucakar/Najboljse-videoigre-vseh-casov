@@ -12,7 +12,7 @@ Za vsako videoigro bom zajel:
 - žanr, število igralcev in oznako
 - metascore in userscore oceno
 
-## Hipoteze
+## Vprašanja
 S pomočjo zajetih podatkov bom skušal odgovoriti na naslednja vprašanja:
 - Kateri žanri so najbolj priljubljeni?
 - Kateri studii in katere platforme so imeli največ uspešnic in ali tu obstaja kakšna povezava?
