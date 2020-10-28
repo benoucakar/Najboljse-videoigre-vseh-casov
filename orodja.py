@@ -32,7 +32,7 @@ def vsebina_datoteke(mapa, ime_datoteke):
     with open(os.path.join(mapa, ime_datoteke), encoding='utf-8') as datoteka:
         return datoteka.read()
 
-# Shranjevanje
+# Pisanje in odpiranje
 
 def zapisi_csv(slovarji, imena_polj, ime_datoteke):
     '''Iz seznama slovarjev ustvari CSV datoteko z glavo.'''
@@ -46,4 +46,9 @@ def zapisi_csv(slovarji, imena_polj, ime_datoteke):
 def zapisi_json(objekt, ime_datoteke):
     '''Iz danega objekta ustvari JSON datoteko.'''
     with open(ime_datoteke, 'w', encoding='utf-8') as json_datoteka:
-        json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False) 
+        json.dump(objekt, json_datoteka, indent=4, ensure_ascii=False)
+
+def odpri_json(ime_datoteke):
+    '''Odpre dano JSON datoteko.'''
+    with open(ime_datoteke, 'r', encoding='utf-8') as json_datoteka: 
+            return json.load(json_datoteka)
