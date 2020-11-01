@@ -9,6 +9,11 @@ mapa_podatkov = "zajeti_podatki_igre"
 
 # Definiramo funkcije
 
+vzorec_id = re.compile(
+    r'id=(?P<id>(\d{6}))',
+    flags=re.DOTALL
+)
+
 vzorec_naslov = re.compile(
     r'<h1>(?P<naslov>(.*?))</h1>',
     flags=re.DOTALL
@@ -25,7 +30,7 @@ vzorec_studio = re.compile(
 )
 
 vzorec_mesec_in_leto = re.compile(
-    r'<span class="data" >((?P<mesec>)(\w{3})) \d{2}, (?P<leto>(\d{4}))</span>',
+    r'<span class="data" >(?P<mesec>(\w{3})) \d{2}, (?P<leto>(\d{4}))</span>',
     flags=re.DOTALL
 )
 
@@ -95,6 +100,52 @@ def jedro_iz_strani(stran):
     vzorec = re.compile(r'<h1>.*?</div>\s+</div>\s+</div>\s+</div>\s+<div class="summary_trailer">', re.DOTALL)
     return re.search(vzorec, stran).group(0)
 
+def ciscenje_st_igralcev(niz):
+    kandidati = [kand for kand in niz.split() if not kand.isalpha()]
+    if not kandidati:
+        return 1
+    stevila = []
+    for kand in kandidati:
+        stevila += kand.split("-")
+    return max([int(s) for s in stevila])
+
+def ciscenje_opisa(niz):
+    flag = True
+    cisti_niz = ""
+    for znak in niz:
+        if znak == "[":
+            flag = False
+        elif znak == "]":
+            flag = True
+        elif flag:
+            cisti_niz += znak
+    return cisti_niz.rstrip().lstrip()
+
+
+
+
+def igra_iz_jedra(stran):
+    jedro_strani = jedro_iz_strani(stran)
+    igra = {}
+    igra["id"] = int(vzorec_id.search(jedro_strani).group("id"))
+    igra["naslov"] = vzorec_naslov.search(jedro_strani).group("naslov")
+    igra["platforma"] = vzorec_platforma.search(jedro_strani).group("platforma")
+    igra["studio"] = vzorec_studio.search(jedro_strani).group("studio")
+    igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
+    igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
+    igra["metascore"] = int(vzorec_metascore.search(jedro_strani).group("metascore"))
+    igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
+    igra["userscore"] = float(vzorec_userscore.search(jedro_strani).group("userscore"))
+    igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
+    igra["oznaka"] = vzorec_oznaka.search(jedro_strani).group("oznaka")
+    igra["opis"] = ciscenje_opisa(vzorec_opis.search(jedro_strani).group("opis"))
+    igra["st_igralcev"] = ciscenje_st_igralcev(vzorec_st_igralcev.search(jedro_strani).group("st_igralcev"))
+    return igra
+
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
 
 # print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html")))
+
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
+
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160692.html"))))
