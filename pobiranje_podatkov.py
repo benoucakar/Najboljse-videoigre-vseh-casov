@@ -121,24 +121,39 @@ def igra_iz_jedra(stran):
     igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
     igra["userscore"] = float(vzorec_userscore.search(jedro_strani).group("userscore"))
     igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
-    igra["oznaka"] = vzorec_oznaka.search(jedro_strani).group("oznaka")
-    igra["st_igralcev"] = ciscenje_st_igralcev(vzorec_st_igralcev.search(jedro_strani).group("st_igralcev"))
+    
+    oznaka = vzorec_oznaka.search(jedro_strani)
+    if oznaka:
+        igra["oznaka"] = oznaka.group("oznaka")
+    else:
+        igra["oznaka"] = None
+
+    stevilo_igralcev = vzorec_st_igralcev.search(jedro_strani)
+    if stevilo_igralcev:
+        igra["st_igralcev"] = ciscenje_st_igralcev(stevilo_igralcev.group("st_igralcev"))
+    else:
+        igra["st_igralcev"] = None
+
     dolg_opis = vzorec_opis_dolg.search(jedro_strani)
     if dolg_opis:
         igra["opis"] = ciscenje_opisa(dolg_opis.group("opis"))
     else:
         igra["opis"] = ciscenje_opisa(vzorec_opis_kratek.search(jedro_strani).group("opis"))
+
     return igra
+
+
+
+#urlji = orodja.odpri_json(json_datoteka)
+#for i in range(313, 314):
+#    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
+#    print(igra_iz_jedra(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html")))
+#    print(" ")
 
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
 
 # print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160751.html")))
 
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
-# 108362
-# 108363
-# 160692
-# 160751
-# 160779
 
-print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
