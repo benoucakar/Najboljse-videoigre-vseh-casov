@@ -54,8 +54,13 @@ vzorec_st_glasov_userscore = re.compile(
     flags=re.DOTALL
 )
 
-vzorec_opis = re.compile(
+vzorec_opis_dolg = re.compile(
     r'<span class="blurb blurb_expanded">(?P<opis>(.*?))</span>',
+    flags=re.DOTALL
+)
+
+vzorec_opis_kratek = re.compile(
+    r'<span class="data">\s+?<span>(?P<opis>(.*?))</span>',
     flags=re.DOTALL
 )
 
@@ -139,12 +144,16 @@ def igra_iz_jedra(stran):
     igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
     igra["oznaka"] = vzorec_oznaka.search(jedro_strani).group("oznaka")
     igra["st_igralcev"] = ciscenje_st_igralcev(vzorec_st_igralcev.search(jedro_strani).group("st_igralcev"))
-    igra["opis"] = ciscenje_opisa(vzorec_opis.search(jedro_strani).group("opis"))
+    dolg_opis = vzorec_opis_dolg.search(jedro_strani)
+    if dolg_opis:
+        igra["opis"] = ciscenje_opisa(dolg_opis.group("opis"))
+    else:
+        igra["opis"] = ciscenje_opisa(vzorec_opis_kratek.search(jedro_strani).group("opis"))
     return igra
 
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
 
-# print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html")))
+# print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160751.html")))
 
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
 # 108362
@@ -154,4 +163,4 @@ def igra_iz_jedra(stran):
 # 160779
 
 
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160751.html"))))
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160779.html"))))
