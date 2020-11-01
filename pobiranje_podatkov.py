@@ -7,7 +7,6 @@ bi_res_poiskal_podatke = False
 json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_igre"
 
-# Definiramo funkcije
 
 vzorec_id = re.compile(
     r'id=(?P<id>(\d{6}))',
@@ -79,9 +78,9 @@ vzorec_st_igralcev = re.compile(
     flags=re.DOTALL
 )
 
-def prenos_strani(id, url_rep, mapa):
+def prenos_strani(indeks, url_rep, mapa):
     url = 'https://www.metacritic.com' + url_rep
-    orodja.url_v_html(url, mapa, f"{id}.html")
+    orodja.url_v_html(url, mapa, f"{indeks}.html")
 
 def jedro_iz_strani(stran):
     '''Vrne le del strani, kjer se nahajajo podatki.'''
@@ -108,9 +107,6 @@ def ciscenje_opisa(niz):
         elif flag:
             cisti_niz += znak
     return cisti_niz.rstrip().lstrip()
-
-
-
 
 def igra_iz_jedra(stran):
     jedro_strani = jedro_iz_strani(stran)
@@ -145,5 +141,4 @@ def igra_iz_jedra(stran):
 # 160751
 # 160779
 
-
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160779.html"))))
+print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
