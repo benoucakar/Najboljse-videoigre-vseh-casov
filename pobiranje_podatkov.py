@@ -20,7 +20,7 @@ vzorec_naslov = re.compile(
 )
 
 vzorec_platforma = re.compile(
-    r'<span class="platform">\s+?<a href="[\w/-]*">\s+(?P<platforma>(\S.*?))\s+?</a>',
+    r'<span class="platform">.*?    (?P<platforma>(\S[^/]*?))\s{2}',
     flags=re.DOTALL
 )
 
@@ -97,7 +97,7 @@ def prenos_strani(id, url_rep, mapa):
 
 def jedro_iz_strani(stran):
     '''Vrne le del strani, kjer se nahajajo podatki.'''
-    vzorec = re.compile(r'<h1>.*?</div>\s+</div>\s+</div>\s+</div>\s+<div class="summary_trailer">', re.DOTALL)
+    vzorec = re.compile(r'<h1>.*?More Details and Credits', re.DOTALL)
     return re.search(vzorec, stran).group(0)
 
 def ciscenje_st_igralcev(niz):
@@ -138,8 +138,8 @@ def igra_iz_jedra(stran):
     igra["userscore"] = float(vzorec_userscore.search(jedro_strani).group("userscore"))
     igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
     igra["oznaka"] = vzorec_oznaka.search(jedro_strani).group("oznaka")
-    igra["opis"] = ciscenje_opisa(vzorec_opis.search(jedro_strani).group("opis"))
     igra["st_igralcev"] = ciscenje_st_igralcev(vzorec_st_igralcev.search(jedro_strani).group("st_igralcev"))
+    igra["opis"] = ciscenje_opisa(vzorec_opis.search(jedro_strani).group("opis"))
     return igra
 
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
@@ -148,4 +148,4 @@ def igra_iz_jedra(stran):
 
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
 
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160692.html"))))
+print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160779.html"))))
