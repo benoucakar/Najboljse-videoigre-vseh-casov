@@ -30,7 +30,7 @@ vzorec_studio = re.compile(
 )
 
 vzorec_mesec_in_leto = re.compile(
-    r'<span class="data" >(?P<mesec>(\w{3})) \d{2}, (?P<leto>(\d{4}))</span>',
+    r'<span class="data" >(?P<mesec>(\w{3})).*?(?P<leto>(\d{4}))</span>',
     flags=re.DOTALL
 )
 
@@ -45,7 +45,7 @@ vzorec_st_glasov_metascore = re.compile(
 )
 
 vzorec_userscore = re.compile(
-    r'<div class="metascore_w user large game positive">(?P<userscore>(\d\.?\d))</div>',
+    r'<div class="metascore_w user.*?">(?P<userscore>(\d\.?\d))</div>',
     flags=re.DOTALL
 )
 
@@ -147,5 +147,11 @@ def igra_iz_jedra(stran):
 # print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html")))
 
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
+# 108362
+# 108363
+# 160692
+# 160751
+# 160779
 
-print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160779.html"))))
+
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160751.html"))))
