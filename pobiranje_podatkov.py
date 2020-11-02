@@ -8,6 +8,8 @@ json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_igre"
 
 
+# Vzorci za regularne izraze
+
 vzorec_id = re.compile(
     r'id=(?P<id>(\d{6}))',
     flags=re.DOTALL
@@ -83,10 +85,20 @@ vzorec_st_igralcev = re.compile(
     flags=re.DOTALL
 )
 
-def prenos_strani(indeks, url_rep, mapa):
-    url = 'https://www.metacritic.com' + url_rep
-    orodja.url_v_html(url, mapa, f"{indeks}.html")
+# Pomožne funkcije
 
+def prenos_strani(indeks, url_rep, mapa_podatkov):
+    url = 'https://www.metacritic.com' + url_rep
+    orodja.url_v_html(url, mapa_podatkov, f"{indeks}.html")
+
+def prenesi_strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podatkov, do, od = 0):
+    indeksi_in_url = orodja.odpri_json(json_datoteka)
+    if potrditev_prenosov_strani:
+        for i in range(od, do):
+            url_rep = indeksi_in_url[i]["url_rep"]
+            prenos_strani(i, url_rep, mapa_podatkov)
+        print("Končano!")
+            
 def jedro_iz_strani(stran):
     '''Vrne le del strani, kjer se nahajajo podatki.'''
     vzorec = re.compile(r'<h1>.*?More Details and Credits', re.DOTALL)
@@ -155,18 +167,12 @@ def zanri_iz_jedra(jedro_strani):
             zanri_brez_ponovitve.append(zanr)
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
-#urlji = orodja.odpri_json(json_datoteka)
-#for i in range(316, 317):
-#    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
-#    print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html"))))
-#    print(" ")
+# Skripte
 
-# prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
+prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-# print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "160751.html")))
-
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
-
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
-
-# print(zanri_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "316.html"))))
+#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/ncaa-football-12
+#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/hasbro-family-game-night-scrabble
+#Napaka pri prenosu strani https://www.metacritic.com/game/gamecube/freekstyle
+#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/call-of-duty-black-ops---annihilation
+#Napaka pri prenosu strani https://www.metacritic.com/game/playstation-2/nfl-street-2
