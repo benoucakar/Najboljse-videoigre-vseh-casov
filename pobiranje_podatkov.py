@@ -167,12 +167,24 @@ def zanri_iz_jedra(jedro_strani):
             zanri_brez_ponovitve.append(zanr)
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
-# Skripte
+def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
+    igre = []
+    zanri = []
+    for i in range(od, do):
+        try:
+            jedro = jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}.html"))
+            igre.append(igra_iz_jedra(jedro))
+            zanri.append(zanri_iz_jedra(jedro))
+        except Exception:
+            print(f"Napaka pri iskanju podatkov v {i}.html")
+    return (igre, zanri)
 
+        
+
+# Skripte
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/ncaa-football-12
-#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/hasbro-family-game-night-scrabble
-#Napaka pri prenosu strani https://www.metacritic.com/game/gamecube/freekstyle
-#Napaka pri prenosu strani https://www.metacritic.com/game/xbox-360/call-of-duty-black-ops---annihilation
-#Napaka pri prenosu strani https://www.metacritic.com/game/playstation-2/nfl-street-2
+# igre_in_zanri_iz_strani(mapa_podatkov, 1000)
+# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "800.html"))))
+
+#496, 606, 800, 921
