@@ -2,7 +2,7 @@ import orodja
 import re
 
 bi_res_prenesel_strani = False
-bi_res_poiskal_podatke = False
+bi_res_poiskal_podatke = True
 
 stevilo_strani = 100
 json_datoteka = "url.json"
@@ -24,7 +24,7 @@ def bloki_iz_strani(stran):
 
 def slovar_iz_bloka(blok):
     '''Iz bloka pobere podatke in jih vrne v obliki slovarja.''' 
-    vzorec = re.compile(r'<input type="checkbox" id="(?P<id>(\d*))".*?<a href="(?P<url_rep>([/\w-]*))', re.DOTALL)
+    vzorec = re.compile(r'<input type="checkbox" id="(?P<id>(\d*))".*?<a href="(?P<url_rep>([!\+/\w-]*))', re.DOTALL)
     return re.search(vzorec, blok).groupdict()
 
 def pridobivanje_podatkov_s_strani(mapa_podatkov, stran):
