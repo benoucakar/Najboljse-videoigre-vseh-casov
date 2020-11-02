@@ -100,16 +100,15 @@ def ciscenje_opisa(niz):
     flag = True
     cisti_niz = ""
     for znak in niz:
-        if znak == "[":
+        if znak in "[<":
             flag = False
-        elif znak == "]":
+        elif znak in "]>":
             flag = True
         elif flag:
             cisti_niz += znak
     return cisti_niz.rstrip().lstrip()
 
-def igra_iz_jedra(stran):
-    jedro_strani = jedro_iz_strani(stran)
+def igra_iz_jedra(jedro_strani):
     igra = {}
     igra["id"] = int(vzorec_id.search(jedro_strani).group("id"))
     igra["naslov"] = vzorec_naslov.search(jedro_strani).group("naslov")
@@ -144,11 +143,11 @@ def igra_iz_jedra(stran):
 
 
 
-#urlji = orodja.odpri_json(json_datoteka)
-#for i in range(313, 314):
-#    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
-#    print(igra_iz_jedra(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html")))
-#    print(" ")
+urlji = orodja.odpri_json(json_datoteka)
+for i in range(312, 314):
+    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
+    print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html"))))
+    print(" ")
 
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
 
