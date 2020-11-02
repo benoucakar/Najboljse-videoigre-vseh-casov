@@ -63,8 +63,13 @@ vzorec_opis_kratek = re.compile(
     flags=re.DOTALL
 )
 
-vzorec_zanri = re.compile(
+vzorec_zanri_grobi = re.compile(
     r'<span class="label">Genre\(s\): </span>(?P<zanri>(.*?))</li>',
+    flags=re.DOTALL
+)
+
+vzorec_zanri_fini = re.compile(
+    r' >(.*?)</span>',
     flags=re.DOTALL
 )
 
@@ -141,13 +146,20 @@ def igra_iz_jedra(jedro_strani):
 
     return igra
 
+def zanri_iz_jedra(jedro_strani):
+    id_ = int(vzorec_id.search(jedro_strani).group("id"))
+    zanri = re.findall(vzorec_zanri_fini, vzorec_zanri_grobi.search(jedro_strani).group(0))
+    zanri_brez_ponovitve = []
+    for zanr in zanri:
+        if zanr not in zanri_brez_ponovitve:
+            zanri_brez_ponovitve.append(zanr)
+    return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
-
-urlji = orodja.odpri_json(json_datoteka)
-for i in range(312, 314):
-    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
-    print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html"))))
-    print(" ")
+#urlji = orodja.odpri_json(json_datoteka)
+#for i in range(316, 317):
+#    prenos_strani(i, urlji[i]["url_rep"],mapa_podatkov)
+#    print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}" + ".html"))))
+#    print(" ")
 
 # prenos_strani("108362", "/game/playstation-3/grand-theft-auto-iv", mapa_podatkov)
 
@@ -156,3 +168,5 @@ for i in range(312, 314):
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
 
 # print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "108362.html"))))
+
+# print(zanri_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "316.html"))))
