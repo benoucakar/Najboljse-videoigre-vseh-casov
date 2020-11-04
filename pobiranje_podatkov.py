@@ -146,8 +146,18 @@ def igra_iz_jedra(jedro_strani):
 
     igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
     igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
-    igra["metascore"] = int(vzorec_metascore.search(jedro_strani).group("metascore"))
-    igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
+
+    metascore = vzorec_metascore.search(jedro_strani)
+    if metascore:
+        igra["metascore"] = int(metascore.group("metascore"))
+    else:
+        igra["metascore"] = None
+    
+    st_glasov_metascore = vzorec_st_glasov_metascore.search(jedro_strani)
+    if st_glasov_metascore:
+        igra["st_glasov_metascore"] = int(st_glasov_metascore.group("st_glasov_metascore"))
+    else:
+        igra["st_glasov_metascore"] = None
 
     userscore = vzorec_userscore.search(jedro_strani)
     if userscore:
@@ -212,6 +222,6 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
 #igre_in_zanri_iz_strani(mapa_podatkov, 10000, 8000)
-print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "8392.html"))))
+#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "8392.html"))))
 #prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
 #print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
