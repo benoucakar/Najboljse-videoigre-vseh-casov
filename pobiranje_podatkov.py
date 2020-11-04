@@ -110,7 +110,8 @@ def ciscenje_st_igralcev(niz):
         return 1
     stevila = []
     for kand in kandidati:
-        stevila += kand.split("-")
+        lep_kand = kand.replace("+", "")
+        stevila += lep_kand.split("-")
     return max([int(s) for s in stevila])
 
 def ciscenje_opisa(niz):
@@ -199,6 +200,5 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
 #igre_in_zanri_iz_strani(mapa_podatkov, 1000)
-#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "496.html"))))
+#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "606.html"))))
 
-#606, 921
