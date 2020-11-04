@@ -25,8 +25,13 @@ vzorec_platforma = re.compile(
     flags=re.DOTALL
 )
 
-vzorec_studio = re.compile(
+vzorec_studio_ob_imenu = re.compile(
     r'<a href="[\!\w/-]*?"  >\s+?(?P<studio>(\S.*?))\s*?</a>',
+    flags=re.DOTALL
+)
+
+vzorec_studio_na_strani = re.compile(
+    r'<span class="label">Developer:</span>.+?<span class="data">.+?(?P<studio>(\S.*?))\s{2}',
     flags=re.DOTALL
 )
 
@@ -131,7 +136,14 @@ def igra_iz_jedra(jedro_strani):
     igra["id"] = int(vzorec_id.search(jedro_strani).group("id"))
     igra["naslov"] = vzorec_naslov.search(jedro_strani).group("naslov")
     igra["platforma"] = vzorec_platforma.search(jedro_strani).group("platforma")
-    igra["studio"] = vzorec_studio.search(jedro_strani).group("studio")
+
+    studio_ob_imenu = vzorec_studio_ob_imenu.search(jedro_strani)
+    if studio_ob_imenu:
+        igra["studio"] = studio_ob_imenu.group("studio")
+    else:
+        igra["studio"] = vzorec_studio_na_strani.search(jedro_strani).group("studio")
+
+
     igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
     igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
     igra["metascore"] = int(vzorec_metascore.search(jedro_strani).group("metascore"))
@@ -199,7 +211,7 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 # Skripte
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-#igre_in_zanri_iz_strani(mapa_podatkov, 6000, 4000)
-#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html"))))
+#igre_in_zanri_iz_strani(mapa_podatkov, 10000, 8000)
+print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "8392.html"))))
 #prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
-print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
+#print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
