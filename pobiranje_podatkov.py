@@ -135,8 +135,18 @@ def igra_iz_jedra(jedro_strani):
     igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
     igra["metascore"] = int(vzorec_metascore.search(jedro_strani).group("metascore"))
     igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
-    igra["userscore"] = float(vzorec_userscore.search(jedro_strani).group("userscore"))
-    igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
+
+    userscore = vzorec_userscore.search(jedro_strani)
+    if userscore:
+        igra["userscore"] = float(userscore.group("userscore"))
+    else:
+        igra["userscore"] = None
+    
+    st_glasov_userscore = vzorec_st_glasov_userscore.search(jedro_strani)
+    if st_glasov_userscore:
+        igra["st_glasov_userscore"] = int(st_glasov_userscore.group("st_glasov_userscore"))
+    else:
+        igra["st_glasov_userscore"] = None
     
     oznaka = vzorec_oznaka.search(jedro_strani)
     if oznaka:
@@ -189,6 +199,6 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
 #igre_in_zanri_iz_strani(mapa_podatkov, 1000)
-print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "800.html"))))
+#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "496.html"))))
 
-#496, 606, 921
+#606, 921
