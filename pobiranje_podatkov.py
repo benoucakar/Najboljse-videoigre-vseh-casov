@@ -154,7 +154,11 @@ def igra_iz_jedra(jedro_strani):
     if dolg_opis:
         igra["opis"] = ciscenje_opisa(dolg_opis.group("opis"))
     else:
-        igra["opis"] = ciscenje_opisa(vzorec_opis_kratek.search(jedro_strani).group("opis"))
+        kratek_opis = vzorec_opis_kratek.search(jedro_strani)
+        if kratek_opis:
+            igra["opis"] = ciscenje_opisa(kratek_opis.group("opis"))
+        else:
+            igra["opis"] = None
 
     return igra
 
@@ -184,7 +188,7 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 # Skripte
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-# igre_in_zanri_iz_strani(mapa_podatkov, 1000)
-# print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "800.html"))))
+#igre_in_zanri_iz_strani(mapa_podatkov, 1000)
+print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "800.html"))))
 
-#496, 606, 800, 921
+#496, 606, 921
