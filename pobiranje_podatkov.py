@@ -26,7 +26,7 @@ vzorec_platforma = re.compile(
 )
 
 vzorec_studio = re.compile(
-    r'<a href="[\w/-]*?"  >\s+?(?P<studio>(\S.*?))\s*?</a>',
+    r'<a href="[\!\w/-]*?"  >\s+?(?P<studio>(\S.*?))\s*?</a>',
     flags=re.DOTALL
 )
 
@@ -199,6 +199,7 @@ def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
 # Skripte
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-#igre_in_zanri_iz_strani(mapa_podatkov, 1000)
-#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "606.html"))))
-
+#igre_in_zanri_iz_strani(mapa_podatkov, 6000, 4000)
+#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html"))))
+#prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
+print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
