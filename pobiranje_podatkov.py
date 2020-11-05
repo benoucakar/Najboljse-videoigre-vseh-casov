@@ -153,6 +153,8 @@ def igra_iz_jedra(jedro_strani):
     igra["id"] = int(vzorec_id.search(jedro_strani).group("id"))
     igra["naslov"] = vzorec_naslov.search(jedro_strani).group("naslov")
     igra["platforma"] = vzorec_platforma.search(jedro_strani).group("platforma")
+    igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
+    igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
 
     studio_ob_imenu = vzorec_studio_ob_imenu.search(jedro_strani)
     if studio_ob_imenu:
@@ -160,34 +162,22 @@ def igra_iz_jedra(jedro_strani):
     else:
         igra["studio"] = vzorec_studio_na_strani.search(jedro_strani).group("studio")
 
-
-    igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
-    igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
-
     metascore = vzorec_metascore.search(jedro_strani)
     if metascore:
         igra["metascore"] = int(metascore.group("metascore"))
+        igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
     else:
         igra["metascore"] = None
-    
-    st_glasov_metascore = vzorec_st_glasov_metascore.search(jedro_strani)
-    if st_glasov_metascore:
-        igra["st_glasov_metascore"] = int(st_glasov_metascore.group("st_glasov_metascore"))
-    else:
         igra["st_glasov_metascore"] = None
-
+    
     userscore = vzorec_userscore.search(jedro_strani)
     if userscore:
         igra["userscore"] = float(userscore.group("userscore"))
+        igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
     else:
         igra["userscore"] = None
-    
-    st_glasov_userscore = vzorec_st_glasov_userscore.search(jedro_strani)
-    if st_glasov_userscore:
-        igra["st_glasov_userscore"] = int(st_glasov_userscore.group("st_glasov_userscore"))
-    else:
         igra["st_glasov_userscore"] = None
-    
+  
     oznaka = vzorec_oznaka.search(jedro_strani)
     if oznaka:
         igra["oznaka"] = oznaka.group("oznaka")
@@ -209,7 +199,6 @@ def igra_iz_jedra(jedro_strani):
             igra["opis"] = ciscenje_opisa(kratek_opis.group("opis"))
         else:
             igra["opis"] = None
-
     return igra
 
 
