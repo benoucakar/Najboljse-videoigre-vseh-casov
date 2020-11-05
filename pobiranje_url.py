@@ -8,7 +8,7 @@ stevilo_strani = 100
 json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_url"
 
-# Definiramo funkcije
+# Pomožne funkcije
 
 def prenos_strani(potrditev_prenosa_strani, stevilo_strani):
     '''Pobere izbrano število spletnih strani in jih da v HTML.'''
@@ -42,7 +42,7 @@ def podatki_v_json(potrditev_iskanja_podatkov, stevilo_strani, mapa_podatkov, im
         orodja.zapisi_json(seznam_podatkov, ime_json_datoteke)
         print("Podatki so bili uspešno pridobljeni!")
 
-# Uporabimo funkcije
+# Skripta
 
 prenos_strani(bi_res_prenesel_strani, stevilo_strani)
 
