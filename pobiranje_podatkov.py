@@ -114,7 +114,7 @@ def strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podatkov, do,
         print("Končano!")
 
 
-def jedro_iz_strani(stran):
+def jedro_s_strani(stran):
     '''Vrne del strani, kjer se nahajajo podatki.'''
     vzorec = re.compile(r'<h1>.*?More Details and Credits', re.DOTALL)
     return re.search(vzorec, stran).group(0)
@@ -165,18 +165,18 @@ def igra_iz_jedra(jedro_strani):
     metascore = vzorec_metascore.search(jedro_strani)
     if metascore:
         igra["metascore"] = int(metascore.group("metascore"))
-        igra["st_glasov_metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
+        igra["glasovi metascore"] = int(vzorec_st_glasov_metascore.search(jedro_strani).group("st_glasov_metascore"))
     else:
         igra["metascore"] = None
-        igra["st_glasov_metascore"] = None
+        igra["glasovi metascore"] = None
     # Zabeležimo userscore in število glasov, če jih igra ima.
     userscore = vzorec_userscore.search(jedro_strani)
     if userscore:
         igra["userscore"] = float(userscore.group("userscore"))
-        igra["st_glasov_userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
+        igra["glasovi userscore"] = int(vzorec_st_glasov_userscore.search(jedro_strani).group("st_glasov_userscore"))
     else:
         igra["userscore"] = None
-        igra["st_glasov_userscore"] = None
+        igra["glasovi userscore"] = None
     # Zabeležimo oznako, če jo igra ima.
     oznaka = vzorec_oznaka.search(jedro_strani)
     if oznaka:
@@ -186,9 +186,9 @@ def igra_iz_jedra(jedro_strani):
     # Zabeležimo število igralcev, če ga igra ima.
     stevilo_igralcev = vzorec_st_igralcev.search(jedro_strani)
     if stevilo_igralcev:
-        igra["st_igralcev"] = ciscenje_st_igralcev(stevilo_igralcev.group("st_igralcev"))
+        igra["stevilo igralcev"] = ciscenje_st_igralcev(stevilo_igralcev.group("st_igralcev"))
     else:
-        igra["st_igralcev"] = None
+        igra["stevilo igralcev"] = None
     # Preverimo, če ima igra dolg ali kratek opis in če ga ima, ga zabeležimo.
     dolg_opis = vzorec_opis_dolg.search(jedro_strani)
     if dolg_opis:
@@ -213,7 +213,7 @@ def zanri_iz_jedra(jedro_strani):
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
 
-def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0, interval_obvestila = 250):
+def igre_in_zanri_s_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0, interval_obvestila = 250):
     '''Iz prenešenih strani izlušči podatke o igrah in žanrih in jih shrani v CSV datoteke.'''
     if potrditev_iskanja_podatkov:
         igre = []
@@ -221,15 +221,15 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0,
         for i in range(od, do):
             if i > 0 and i % interval_obvestila == 0: print(f"Obdelanij je bilo {i} strani.")
             try:
-                jedro = jedro_iz_strani(orodja.odpri_html(mapa_podatkov, f"{i}.html"))
+                jedro = jedro_s_strani(orodja.odpri_html(mapa_podatkov, f"{i}.html"))
                 igre.append(igra_iz_jedra(jedro))
                 zanri += zanri_iz_jedra(jedro)
             except Exception:
                 print(f"Napaka pri iskanju podatkov v {i}.html")
         orodja.zapisi_csv(
             igre,
-            ["id", "naslov", "platforma", "studio", "mesec", "leto", "metascore", "st_glasov_metascore",
-            "userscore", "st_glasov_userscore", "oznaka", "st_igralcev", "opis"],
+            ["id", "naslov", "platforma", "studio", "mesec", "leto", "metascore", "glasovi metascore",
+            "userscore", "glasovi userscore", "oznaka", "stevilo igralcev", "opis"],
             csv_datoteka_igre
         )
         orodja.zapisi_csv(zanri, ["id", "zanr"], csv_datoteka_zanri)
@@ -241,4 +241,4 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0,
 
 strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, stevilo_iger)
 
-igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, stevilo_iger)
+igre_in_zanri_s_strani(bi_res_poiskal_podatke, mapa_podatkov, stevilo_iger)
