@@ -6,7 +6,8 @@ bi_res_poiskal_podatke = False
 
 json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_igre"
-
+csv_datoteka_igre = "igre.csv"
+csv_datoteka_zanri = "zanri.csv"
 
 # Vzorci za regularne izraze
 
@@ -204,24 +205,35 @@ def zanri_iz_jedra(jedro_strani):
             zanri_brez_ponovitve.append(zanr)
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
-def igre_in_zanri_iz_strani(mapa_podatkov, do, od=0):
-    igre = []
-    zanri = []
-    for i in range(od, do):
-        try:
-            jedro = jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}.html"))
-            igre.append(igra_iz_jedra(jedro))
-            zanri.append(zanri_iz_jedra(jedro))
-        except Exception:
-            print(f"Napaka pri iskanju podatkov v {i}.html")
-    return (igre, zanri)
-
+def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0):
+    if potrditev_iskanja_podatkov:
+        igre = []
+        zanri = []
+        for i in range(od, do):
+            if i < 0 and i % 500 == 0: print(f"Obdelanij je bilo {i} strani.")
+            try:
+                jedro = jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}.html"))
+                igre.append(igra_iz_jedra(jedro))
+                zanri += zanri_iz_jedra(jedro)
+            except Exception:
+                print(f"Napaka pri iskanju podatkov v {i}.html")
         
+        orodja.zapisi_csv(
+            igre,
+            ["id", "naslov", "platforma", "studio", "mesec", "leto", "metascore", "st_glasov_metascore",
+            "userscore", "st_glasov_userscore", "oznaka", "st_igralcev", "opis"],
+            csv_datoteka_igre
+        )
+        orodja.zapisi_csv(zanri, ["id", "zanr"], csv_datoteka_zanri)
+        print("Podatki so bili uspešno pridobljeni!")
 
-# Skripte
+# Skripta
+
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-#igre_in_zanri_iz_strani(mapa_podatkov, 10000, 8000)
+igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, 501)
+
+
 #print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "8392.html"))))
 #prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
 #print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
