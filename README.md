@@ -3,11 +3,9 @@ V okviru predmeta programiranje 1 bom preučil najbolj priljubljene videoigre.
 
 ## Navodila za uporabo
 Najprej poženite `pobiranje_url.py`, da snamete in preiščete razpored iger.
-Pred zagonom je treba v glavi nastavit `bi_res_prenesel_strani` in `bi_res_poiskal_podatke` na `True`, da nehote ne začneš prenašati strani.
 Strani se bodo prenesele in podatki o url-jih se bodo shranili v `url.json` datoteko.
 
 Nato poženite `pobiranje_podatkov.py`, da snamete in preiščete posamezne igre.
-Tudi tu je v glavi potrebno nastavit `bi_res_prenesel_strani` in `bi_res_poiskal_podatke` na `True`.
 Strani se bodo prenesle in podatki o igrah in žanrih se bodo shranili v `igre.csv` in `zanri.csv` datoteki.
 
 ## O podatkih
