@@ -2,8 +2,9 @@ import orodja
 import re
 
 bi_res_prenesel_strani = False
-bi_res_poiskal_podatke = True
+bi_res_poiskal_podatke = False
 
+stevilo_iger = 10000
 json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_igre"
 csv_datoteka_igre = "igre.csv"
@@ -94,10 +95,12 @@ vzorec_st_igralcev = re.compile(
 # Pomožne funkcije
 
 def prenos_strani(indeks, url_rep, mapa_podatkov):
+    '''Prenese stran dostopno z danega repa.'''
     url = 'https://www.metacritic.com' + url_rep
     orodja.url_v_html(url, mapa_podatkov, f"{indeks}.html")
 
 def prenesi_strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podatkov, do, od = 0):
+    '''Pobere izbrano število spletnih strani, glede na podatke v JSON datoteki, in jih shrani v HTML.'''
     indeksi_in_url = orodja.odpri_json(json_datoteka)
     if potrditev_prenosov_strani:
         for i in range(od, do):
@@ -106,11 +109,12 @@ def prenesi_strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podat
         print("Končano!")
             
 def jedro_iz_strani(stran):
-    '''Vrne le del strani, kjer se nahajajo podatki.'''
+    '''Vrne del strani, kjer se nahajajo podatki.'''
     vzorec = re.compile(r'<h1>.*?More Details and Credits', re.DOTALL)
     return re.search(vzorec, stran).group(0)
 
 def ciscenje_st_igralcev(niz):
+    '''Vrne prečiščen podatek o številu igralcev.'''
     kandidati = [kand for kand in niz.split() if not kand.isalpha()]
     if not kandidati:
         return 1
@@ -121,6 +125,7 @@ def ciscenje_st_igralcev(niz):
     return max([int(s) for s in stevila])
 
 def ciscenje_opisa(niz):
+    '''Iz opisa odstrani razno urejanje in vire, če so opisi iz kakšnih člankov.'''
     flag = True
     cisti_niz = ""
     for znak in niz:
@@ -134,6 +139,7 @@ def ciscenje_opisa(niz):
     return " ".join(cisti_niz.split())
 
 def igra_iz_jedra(jedro_strani):
+    '''Iz danega jedra strani izlušči podatke o igri in jih vrne v obliki slovarja.'''
     igra = {}
     igra["id"] = int(vzorec_id.search(jedro_strani).group("id"))
     igra["naslov"] = vzorec_naslov.search(jedro_strani).group("naslov")
@@ -198,6 +204,7 @@ def igra_iz_jedra(jedro_strani):
     return igra
 
 def zanri_iz_jedra(jedro_strani):
+    '''Iz danega jedra strani izlušči podatke o žanrih in jih vrne v obliki slovarja.'''
     id_ = int(vzorec_id.search(jedro_strani).group("id"))
     zanri = re.findall(vzorec_zanri_fini, vzorec_zanri_grobi.search(jedro_strani).group(0))
     zanri_brez_ponovitve = []
@@ -207,6 +214,7 @@ def zanri_iz_jedra(jedro_strani):
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
 def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0, interval_obvestila = 250):
+    '''Iz prenešenih strani izlušči podatke o igrah in žanrih in jih shrani v CSV datoteke.'''
     if potrditev_iskanja_podatkov:
         igre = []
         zanri = []
@@ -218,7 +226,6 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0,
                 zanri += zanri_iz_jedra(jedro)
             except Exception:
                 print(f"Napaka pri iskanju podatkov v {i}.html")
-        
         orodja.zapisi_csv(
             igre,
             ["id", "naslov", "platforma", "studio", "mesec", "leto", "metascore", "st_glasov_metascore",
@@ -230,11 +237,6 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0,
 
 # Skripta
 
-prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
+prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, stevilo_iger)
 
-igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, 1000)
-
-
-#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "1283.html"))))
-#prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
-#print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
+igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, stevilo_iger)
