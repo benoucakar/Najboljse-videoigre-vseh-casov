@@ -2,7 +2,7 @@ import orodja
 import re
 
 bi_res_prenesel_strani = False
-bi_res_poiskal_podatke = False
+bi_res_poiskal_podatke = True
 
 json_datoteka = "url.json"
 mapa_podatkov = "zajeti_podatki_igre"
@@ -130,7 +130,8 @@ def ciscenje_opisa(niz):
             flag = True
         elif flag:
             cisti_niz += znak
-    return cisti_niz.rstrip().lstrip()
+    cisti_niz = re.sub(r'(\*|\\n)', " ", cisti_niz)
+    return " ".join(cisti_niz.split())
 
 def igra_iz_jedra(jedro_strani):
     igra = {}
@@ -205,12 +206,12 @@ def zanri_iz_jedra(jedro_strani):
             zanri_brez_ponovitve.append(zanr)
     return [{"id": id_, "zanr": zanr} for zanr in zanri_brez_ponovitve]
 
-def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0):
+def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0, interval_obvestila = 250):
     if potrditev_iskanja_podatkov:
         igre = []
         zanri = []
         for i in range(od, do):
-            if i < 0 and i % 500 == 0: print(f"Obdelanij je bilo {i} strani.")
+            if i > 0 and i % interval_obvestila == 0: print(f"Obdelanij je bilo {i} strani.")
             try:
                 jedro = jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, f"{i}.html"))
                 igre.append(igra_iz_jedra(jedro))
@@ -231,9 +232,9 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0)
 
 prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, 10000)
 
-igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, 501)
+igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, 1000)
 
 
-#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "8392.html"))))
+#print(igra_iz_jedra(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "1283.html"))))
 #prenos_strani(1813, "/game/pc/star-wars-the-old-republic", mapa_podatkov)
 #print(jedro_iz_strani(orodja.vsebina_datoteke(mapa_podatkov, "5995.html")))
