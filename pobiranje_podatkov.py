@@ -1,8 +1,8 @@
 import orodja
 import re
 
-bi_res_prenesel_strani = False
-bi_res_poiskal_podatke = False
+bi_res_prenesel_strani = True
+bi_res_poiskal_podatke = True
 
 stevilo_iger = 10000
 json_datoteka = "url.json"

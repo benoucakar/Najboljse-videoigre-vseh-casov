@@ -1,7 +1,7 @@
 import orodja
 import re
 
-bi_res_prenesel_strani = False
+bi_res_prenesel_strani = True
 bi_res_poiskal_podatke = True
 
 stevilo_strani = 100
