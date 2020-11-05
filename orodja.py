@@ -31,7 +31,7 @@ def url_v_html(url, mapa, ime_datoteke, headers=default_headers):
 # Pisanje in odpiranje
 
 
-def vsebina_datoteke(mapa, ime_datoteke):
+def odpri_html(mapa, ime_datoteke):
     '''Vrne niz z vsebino dane datoteke.'''
     with open(os.path.join(mapa, ime_datoteke), encoding='utf-8') as datoteka:
         return datoteka.read()
