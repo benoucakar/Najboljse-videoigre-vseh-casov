@@ -104,7 +104,7 @@ def prenos_strani(indeks, url_rep, mapa_podatkov):
     orodja.url_v_html(url, mapa_podatkov, f"{indeks}.html")
 
 
-def prenesi_strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podatkov, do, od = 0):
+def strani_s_spleta(potrditev_prenosov_strani, json_datoteka, mapa_podatkov, do, od = 0):
     '''Pobere izbrano število spletnih strani, glede na podatke v JSON datoteki, in jih shrani v HTML.'''
     indeksi_in_url = orodja.odpri_json(json_datoteka)
     if potrditev_prenosov_strani:
@@ -155,13 +155,13 @@ def igra_iz_jedra(jedro_strani):
     igra["platforma"] = vzorec_platforma.search(jedro_strani).group("platforma")
     igra["mesec"] = vzorec_mesec_in_leto.search(jedro_strani).group("mesec")
     igra["leto"] = int(vzorec_mesec_in_leto.search(jedro_strani).group("leto"))
-
+    # Posebaj preverimo, na katerem mestu se pojavi ime studia.
     studio_ob_imenu = vzorec_studio_ob_imenu.search(jedro_strani)
     if studio_ob_imenu:
         igra["studio"] = studio_ob_imenu.group("studio")
     else:
         igra["studio"] = vzorec_studio_na_strani.search(jedro_strani).group("studio")
-
+    # Zabeležimo metascore in število glasov, če jih igra ima.
     metascore = vzorec_metascore.search(jedro_strani)
     if metascore:
         igra["metascore"] = int(metascore.group("metascore"))
@@ -169,7 +169,7 @@ def igra_iz_jedra(jedro_strani):
     else:
         igra["metascore"] = None
         igra["st_glasov_metascore"] = None
-    
+    # Zabeležimo userscore in število glasov, če jih igra ima.
     userscore = vzorec_userscore.search(jedro_strani)
     if userscore:
         igra["userscore"] = float(userscore.group("userscore"))
@@ -177,19 +177,19 @@ def igra_iz_jedra(jedro_strani):
     else:
         igra["userscore"] = None
         igra["st_glasov_userscore"] = None
-  
+    # Zabeležimo oznako, če jo igra ima.
     oznaka = vzorec_oznaka.search(jedro_strani)
     if oznaka:
         igra["oznaka"] = oznaka.group("oznaka")
     else:
         igra["oznaka"] = None
-
+    # Zabeležimo število igralcev, če ga igra ima.
     stevilo_igralcev = vzorec_st_igralcev.search(jedro_strani)
     if stevilo_igralcev:
         igra["st_igralcev"] = ciscenje_st_igralcev(stevilo_igralcev.group("st_igralcev"))
     else:
         igra["st_igralcev"] = None
-
+    # Preverimo, če ima igra dolg ali kratek opis in če ga ima, ga zabeležimo.
     dolg_opis = vzorec_opis_dolg.search(jedro_strani)
     if dolg_opis:
         igra["opis"] = ciscenje_opisa(dolg_opis.group("opis"))
@@ -239,6 +239,6 @@ def igre_in_zanri_iz_strani(potrditev_iskanja_podatkov, mapa_podatkov, do, od=0,
 # Skripta
 
 
-prenesi_strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, stevilo_iger)
+strani_s_spleta(bi_res_prenesel_strani, json_datoteka, mapa_podatkov, stevilo_iger)
 
 igre_in_zanri_iz_strani(bi_res_poiskal_podatke, mapa_podatkov, stevilo_iger)
