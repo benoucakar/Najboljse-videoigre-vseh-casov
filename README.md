@@ -23,7 +23,7 @@ Za vsako videoigro sem zajel:
 - metascore in število glasov za metascore
 - userscore in število glasov za userscore
 
-## Vprašanja in delavne hipoteze
+## Vprašanja na katera bom odgovoril
 S pomočjo zajetih podatkov bom skušal odgovoriti na naslednja vprašanja:
 - Kateri žanri so najbolj priljubljeni?
 - So bolj uspešne enoigralske ali večigralske igre?
@@ -31,4 +31,5 @@ S pomočjo zajetih podatkov bom skušal odgovoriti na naslednja vprašanja:
 - Koliko se razlikujeta mnenji ljudstva in "strokovnjakov"?
 - Kaj je bolje, XBOX ONE ali PS4?
 - Ali so igre, ki so meni všeč, všeč tudi drugim?
+
 In ogromno drugih vprašanj, ki se jih bom sproti spomnil.
