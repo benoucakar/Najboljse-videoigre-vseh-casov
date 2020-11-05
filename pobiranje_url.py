@@ -23,7 +23,7 @@ def prenos_strani(potrditev_prenosa_strani, stevilo_strani):
         print("Končano!")
 
 
-def bloki_iz_strani(stran):
+def bloki_s_strani(stran):
     '''Stran razbije na bloke in jih shrani v seznam.'''
     vzorec = re.compile(r'<input type="checkbox".*?</td>', re.DOTALL)
     return re.findall(vzorec, stran)
@@ -37,7 +37,7 @@ def slovar_iz_bloka(blok):
 
 def podatki_s_strani(mapa_podatkov, stran):
     '''Iz prenešene strani izlušči podatke.'''
-    seznam_blokov = bloki_iz_strani(orodja.odpri_html(mapa_podatkov, stran))
+    seznam_blokov = bloki_s_strani(orodja.odpri_html(mapa_podatkov, stran))
     return [slovar_iz_bloka(blok) for blok in seznam_blokov]
 
 
