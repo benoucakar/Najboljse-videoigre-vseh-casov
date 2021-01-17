@@ -1,8 +1,8 @@
 # Najboljše videoigre vseh časov
-V okviru predmeta programiranje 1 bom preučil najbolj priljubljene videoigre.
+V okviru predmeta programiranje 1 sem preučil najbolj priljubljene videoigre.
 
-## Navodila za uporabo
-Najprej poženite `pobiranje_url.py`, da snamete in preiščete razpored iger.
+## Navodila za snemanje podatkov
+Najprej poženite `pobiranje_url.py`, da snamete in preiščete razporede iger.
 Strani se bodo prenesele in podatki o url-jih se bodo shranili v `url.json` datoteko.
 
 Nato poženite `pobiranje_podatkov.py`, da snamete in preiščete posamezne igre.
@@ -20,8 +20,9 @@ Za vsako videoigro sem zajel:
 - metascore in število glasov za metascore
 - userscore in število glasov za userscore
 
-## Vprašanja na katera bom odgovoril
-S pomočjo zajetih podatkov bom skušal odgovoriti na naslednja vprašanja:
+## O analizi
+Analiziral sem podatke, ki so bili sneti 5. 11. 2020.
+S pomočjo zajetih podatkov sem skušal odgovoriti na naslednja vprašanja:
 - Kateri žanri so najbolj priljubljeni?
 - So bolj uspešne enoigralske ali večigralske igre?
 - Kateri studii in katere platforme so imeli največ uspešnic in ali tu obstaja kakšna povezava?
