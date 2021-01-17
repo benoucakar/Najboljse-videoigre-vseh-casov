@@ -25,6 +25,7 @@ Analiziral sem podatke, ki so bili sneti 5. 11. 2020
 
 Najprej sem naredil lastno matriko, ki upošteva tako mnenja strokovnjakov kot uporabnikov o kvaliteti videoigre.
 S tem kot glavno orodje sem nato preučil pojave v podatkih in prevrjal razne hipoteze.
+
 Med drugim sem odgovoril na naslednja vprašanja:
 * Koliko se razlikujeta mnenji ljudstva in "strokovnjakov"?
 * Kateri studii in katere platforme so imeli največ uspešnic?
@@ -32,4 +33,5 @@ Med drugim sem odgovoril na naslednja vprašanja:
 * Ali leto in mesec izzida vplivata na uspeh igre? 
 * Kako žanr in oznaka vplivata na uspeh igre?
 * So bolj uspešne enoigralske ali večigralske igre?
+
 Nazadnje sem spisal še progam, ki sprejme igre, ki si jih že igral in ti na podlagi teh vrne priporočilo, katere bi te morda zanimale.
