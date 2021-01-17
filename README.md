@@ -21,13 +21,15 @@ Za vsako videoigro sem zajel:
 - userscore in število glasov za userscore
 
 ## O analizi
-Analiziral sem podatke, ki so bili sneti 5. 11. 2020.
-S pomočjo zajetih podatkov sem skušal odgovoriti na naslednja vprašanja:
-- Kateri žanri so najbolj priljubljeni?
-- So bolj uspešne enoigralske ali večigralske igre?
-- Kateri studii in katere platforme so imeli največ uspešnic in ali tu obstaja kakšna povezava?
-- Koliko se razlikujeta mnenji ljudstva in "strokovnjakov"?
-- Kaj je bolje, XBOX ONE ali PS4?
-- Ali so igre, ki so meni všeč, všeč tudi drugim?
+Analiziral sem podatke, ki so bili sneti 5. 11. 2020  
 
-In ogromno drugih vprašanj, ki se jih bom sproti spomnil.
+Najprej sem naredil lastno matriko, ki upošteva tako mnenja strokovnjakov kot uporabnikov o kvaliteti videoigre.
+S tem kot glavno orodje sem nato preučil pojave v podatkih in prevrjal razne hipoteze.
+Med drugim sem odgovoril na naslednja vprašanja:
+* Koliko se razlikujeta mnenji ljudstva in "strokovnjakov"?
+* Kateri studii in katere platforme so imeli največ uspešnic?
+* Kaj je bolje, XBOX ONE ali PS4?
+* Ali leto in mesec izzida vplivata na uspeh igre? 
+* Kako žanr in oznaka vplivata na uspeh igre?
+* So bolj uspešne enoigralske ali večigralske igre?
+Nazadnje sem spisal še progam, ki sprejme igre, ki si jih že igral in ti na podlagi teh vrne priporočilo, katere bi te morda zanimale.
